@@ -162,7 +162,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -205,3 +205,99 @@ MonoBehaviour:
   spawnRate: 0.25
   height: 2.5
   spawningBirds: 1
+--- !u!1001 &1465029107
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 8.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114376377095431890, guid: 7473092a142473f4a9e40576c0fbfcf6,
+        type: 2}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114376377095431890, guid: 7473092a142473f4a9e40576c0fbfcf6,
+        type: 2}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114376377095431890, guid: 7473092a142473f4a9e40576c0fbfcf6,
+        type: 2}
+      propertyPath: scaler
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114376377095431890, guid: 7473092a142473f4a9e40576c0fbfcf6,
+        type: 2}
+      propertyPath: marshmallow_prefab
+      value: 
+      objectReference: {fileID: 1351629186816646, guid: 1bcb83b997f9e8f4d8a2ab1e0c211166,
+        type: 2}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1 &1465029108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1234623978813538, guid: 7473092a142473f4a9e40576c0fbfcf6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1465029107}
+--- !u!50 &1465029109
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1465029108}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
