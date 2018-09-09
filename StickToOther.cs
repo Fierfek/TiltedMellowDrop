@@ -15,7 +15,8 @@ public class StickToOther : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(transform.position.y <= -4.0)
+
+        if (transform.position.y <= -4.0)
         {
             if(alive)
             {

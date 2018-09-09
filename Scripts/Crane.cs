@@ -11,6 +11,7 @@ public class Crane : MonoBehaviour {
     private float left_bounds;
     private float right_bounds;
     private GameObject marshmallow_instance;
+    private List<GameObject> marshmallows;
     private Camera cam;
     
     public float speed;
@@ -26,6 +27,8 @@ public class Crane : MonoBehaviour {
         left_bounds = cam.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         holding = true;
         direction = Vector2.right;
+
+        marshmallows = new List<GameObject>();
     }
 	
 	// Update is called once per frame
@@ -38,9 +41,51 @@ public class Crane : MonoBehaviour {
             {
                 holding = false;
                 marshmallow_instance.GetComponent<Rigidbody2D>().WakeUp();
+                marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = false;
+
+                marshmallow_instance.GetComponent<BoxCollider2D>().enabled = true;
+                BoxCollider2D[] boxes = marshmallow_instance.GetComponentsInChildren<BoxCollider2D>();
+                foreach (BoxCollider2D box in boxes)
+                {
+                    box.enabled = true;
+                }
+
+                marshmallow_instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
+                Rigidbody2D[] bodies = marshmallow_instance.GetComponentsInChildren<Rigidbody2D>();
+                foreach (Rigidbody2D body in bodies)
+                {
+                    body.velocity = new Vector2(0.0f, 0.0f);
+                }
+
+                marshmallows.Add(marshmallow_instance);
+                marshmallow_instance = null;
                 //GET RID OF LATER
-                stacked();
+                //stacked();
             }
+        }
+        else
+        {
+            if (marshmallows.Count >= 5)
+            {
+                bool searching = true;
+                do
+                {
+                    if (marshmallows.Contains(null))
+                        marshmallows.Remove(null);
+                    else
+                        searching = false;
+
+
+                } while (searching);
+
+
+                /*for (int i = 0; i < marshmallows.Count; i)
+                {
+                    if(marshmallows.)
+                }*/
+            }
+            else
+                stacked();
         }
 	}
 
@@ -63,6 +108,15 @@ public class Crane : MonoBehaviour {
     void stacked()
     {
         marshmallow_instance = Instantiate(marshmallow_prefab, transform.position, Quaternion.identity);
+        marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = true;
+
+        marshmallow_instance.GetComponent<BoxCollider2D>().enabled = false;
+        BoxCollider2D[] boxes = marshmallow_instance.GetComponentsInChildren<BoxCollider2D>();
+        foreach (BoxCollider2D box in boxes)
+        {
+            box.enabled = false;
+        }
+
         holding = true;
     }
 }
