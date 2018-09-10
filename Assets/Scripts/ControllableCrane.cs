@@ -20,7 +20,8 @@ public class ControllableCrane : MonoBehaviour
     private int marshmallowCount = 20;
     public bool forceStopCameraTrack = false;
     private bool canDrop = true;
-    float gamemodeCurrHeight = 0, maxHeight = 0;
+    float currHeight = 0, currHeightRaw = 0;
+    private GameObject heightCanvas, dropZone, currentlyTrackedMallow;
     private Text heightText, remainingText;
 
     // Use this for initialization
@@ -35,27 +36,44 @@ public class ControllableCrane : MonoBehaviour
         MobileHelper.ins.tapEvent.AddListener((x) => DropMarshmallow(x));
         MobileHelper.ins.holdReleaseEvent.AddListener((x) => DropMarshmallow(x));
         MobileHelper.ins.holdingEvent.AddListener((x) => ControlMarshmallow(x));
-        MobileHelper.ins.panEvent.AddListener(() => forceStopCameraTrack = true);
-        heightText = cam.transform.Find("Canvas").transform.Find("Height").GetComponent<Text>();
-        remainingText = cam.transform.Find("Canvas").transform.Find("Remaining").GetComponent<Text>();
+        MobileHelper.ins.panEvent.AddListener(() =>
+        {
+            forceStopCameraTrack = true;
+            cam.transform.position = new Vector3(0, Mathf.Clamp(Mathf.Clamp(cam.transform.position.y, currHeightRaw + 1, 999), 0, 999), -10);
+        });
+        heightCanvas = GameObject.Find("HeightCanvas");
+        heightText = heightCanvas.transform.Find("Height").GetComponent<Text>();
+        dropZone = cam.transform.Find("DropZone").gameObject;
+        remainingText = dropZone.transform.Find("Remaining").GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        maxHeight = 0;
+        currHeight = 0;
         foreach(GameObject x in marshmallows)
         {
-            if (x.GetComponent<StickToOther>().stuck)
+            if (x.GetComponent<StickToOther>().landed)
             {
                 var y = Math.Round((x.transform.position.y + 4) * 10, 1);
-                if (y > maxHeight)
+                if (y > currHeight)
                 {
-                    maxHeight = (float)y;
+                    currHeightRaw = x.transform.position.y;
+                    currHeight = (float)y;
+                    currentlyTrackedMallow = x;
                 }
             }
+            /* DEBUG THE CURRENTLY TRACKED MALLOW
+            if (currentlyTrackedMallow)
+            {
+                x.transform.Find("Debug").GetComponent<SpriteRenderer>().enabled = true;
+                x.transform.Find("Debug").GetComponent<SpriteRenderer>().color = x == currentlyTrackedMallow ? Color.red : Color.white;
+            }
+            */
         }
-        heightText.text = maxHeight.ToString();
+        heightText.text = currHeight.ToString();
+        if(currentlyTrackedMallow)
+            heightCanvas.transform.position = new Vector2(0, currHeightRaw + .6f); // Adds half of height of marshmallow to make line on top of mallow
         remainingText.text = (marshmallowCount - marshmallows.Count).ToString() + " left";
         if (holding)
         {
@@ -87,7 +105,7 @@ public class ControllableCrane : MonoBehaviour
 
     void DropMarshmallow(Vector2 pos) // Drops marshmallow at pos
     {
-        if (holding && pos.y >= cam.transform.position.y + 3)
+        if (canDrop && holding && pos.y >= cam.transform.position.y + 3)
         {
             marshmallow_instance.SetActive(true);
             transform.position = marshmallow_instance.transform.position = pos;
@@ -121,6 +139,7 @@ public class ControllableCrane : MonoBehaviour
         {
             marshmallow_instance = Instantiate(marshmallow_prefab, transform.position, Quaternion.identity);
             marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = true;
+            marshmallow_instance.name = marshmallows != null ? marshmallows.Count.ToString() : "0";
 
             marshmallow_instance.SetActive(false);
             var y = marshmallow_instance.GetComponent<StickToOther>();
@@ -128,32 +147,36 @@ public class ControllableCrane : MonoBehaviour
             y.stuckEvent.AddListener(
                 (x) =>
                 {
-                    StartCoroutine("CamTrackMarshmallow", x);
+                    if(!y.landed) // first time landing
+                    {
+                        currentlyTrackedMallow = x.gameObject;
+                        if (marshmallows.Count == 1 || forceStopCameraTrack)
+                            StartCoroutine("CamTrackMarshmallow");
+                    }
                 });
             y.unstuckEvent.AddListener(
                 (x) =>
                 {
-                    StartCoroutine("CamTrackMarshmallow", x);
+                    //StartCoroutine("CamTrackMarshmallow", x);
                 });
-            // while each mallow is stuck, update highest one height to max height
 
             holding = true;
         }
     }
 
-    IEnumerator CamTrackMarshmallow(Transform x)
+    IEnumerator CamTrackMarshmallow() // Tracks the currentlyTrackedMallow
     {
-        if (!movingCamera)
+        if (!movingCamera && currentlyTrackedMallow != null)
         {
             movingCamera = true;
             forceStopCameraTrack = false;
             float targetPosY;
             do
             {
-                targetPosY = (float)System.Math.Round(Mathf.Clamp(x.position.y, 0, 999), 2);
+                targetPosY = (float)System.Math.Round(Mathf.Clamp(currentlyTrackedMallow.transform.position.y + 1, 0, 999), 2);
                 cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(0, targetPosY, -10), Time.deltaTime * 3);
                 yield return new WaitForFixedUpdate();
-            } while (Math.Abs(cam.transform.position.y - targetPosY) > .01 && !forceStopCameraTrack);
+            } while (!forceStopCameraTrack);
             movingCamera = false;
         }
     }
@@ -173,4 +196,4 @@ public class ControllableCrane : MonoBehaviour
      * 
      *
      */
-}
+        }

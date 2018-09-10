@@ -10,7 +10,7 @@ public class StickToOther : MonoBehaviour {
     public StuckEvent stuckEvent = new StuckEvent();
     public StuckEvent unstuckEvent = new StuckEvent();
     bool alive = true;
-    public bool stuck = false;
+    public bool stuck = false, landed = false;
     float burnTime = 0.0f;
     public bool willBurn = true;
 
@@ -68,6 +68,7 @@ public class StickToOther : MonoBehaviour {
 
             stuck = true;
             stuckEvent.Invoke(transform);
+            landed = true;
         }
     }
 
