@@ -13,6 +13,10 @@ public class SceneChanger : MonoBehaviour {
         SceneManager.LoadScene("MainGame");
     }
 
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("StartMenu");
+    }
 
     public void QuitGame()
     {
