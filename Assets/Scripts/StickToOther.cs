@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StickToOther : MonoBehaviour {
 
+    public class StuckEvent : UnityEvent<Transform> { }
+
+    public StuckEvent stuckEvent = new StuckEvent();
     bool alive;
     bool stuck;
 
@@ -40,6 +44,7 @@ public class StickToOther : MonoBehaviour {
             }
 
             stuck = true;
+            stuckEvent.Invoke(transform);
         }
     }
 
