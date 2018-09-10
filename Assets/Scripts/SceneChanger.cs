@@ -18,6 +18,11 @@ public class SceneChanger : MonoBehaviour {
         SceneManager.LoadScene("StartMenu");
     }
 
+    public void Credits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
+
     public void QuitGame()
     {
         Application.Quit();
