@@ -12,6 +12,7 @@ public class Crane : MonoBehaviour {
     private float right_bounds;
     private GameObject marshmallow_instance;
     private List<GameObject> marshmallows;
+    bool usingAndroid = Application.platform == RuntimePlatform.Android;
     private Camera cam;
     
     public float speed;
@@ -27,7 +28,7 @@ public class Crane : MonoBehaviour {
         left_bounds = cam.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         holding = true;
         direction = Vector2.right;
-
+        if (usingAndroid) speed /= 2;
         marshmallows = new List<GameObject>();
     }
 	
@@ -37,7 +38,7 @@ public class Crane : MonoBehaviour {
         if (holding)
         {
             marshmallow_instance.transform.position = transform.position;
-            if (Input.GetMouseButtonDown(0) || (Application.platform == RuntimePlatform.Android && Input.GetTouch(0).phase == TouchPhase.Began))
+            if (Input.GetMouseButtonDown(0) || (usingAndroid && Input.GetTouch(0).phase == TouchPhase.Began))
             {
                 marshmallow_instance.GetComponent<MallowAnimation>().fall();
                 holding = false;

@@ -6,6 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Scenes/StartMenu.unity
     guid: 8bdea127fdcae4e47aec1af424647520
   - enabled: 0
@@ -20,4 +21,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainGame.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+=======
+    path: Assets/Scenes/TowerBuild.unity
+    guid: febd62e4b0a594241b05359e0761a9bd
+>>>>>>> Jenga
   m_configObjects: {}
