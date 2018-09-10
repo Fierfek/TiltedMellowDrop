@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  marshmallow_prefab: {fileID: 1474527303281712, guid: 46be9918df3c8c841a635921a996ca01,
+  marshmallow_prefab: {fileID: 1000756366372542, guid: 68e267e07ae4bde4d88022b45d0702e4,
     type: 2}
 --- !u!212 &212635091290065666
 SpriteRenderer:
