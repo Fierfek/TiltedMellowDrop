@@ -39,6 +39,7 @@ public class Crane : MonoBehaviour {
             marshmallow_instance.transform.position = transform.position;
             if (Input.GetMouseButtonDown(0) || (Application.platform == RuntimePlatform.Android && Input.GetTouch(0).phase == TouchPhase.Began))
             {
+                marshmallow_instance.GetComponent<MallowAnimation>().fall();
                 holding = false;
                 marshmallow_instance.GetComponent<Rigidbody2D>().WakeUp();
                 marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = false;
