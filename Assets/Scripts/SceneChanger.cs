@@ -6,25 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour {
 
-    public void LoadGame()
-    {
 
-        SceneManager.LoadScene("MainGame");
-    }
+	public void LoadGame() {
 
-    public void MainMenu()
-    {
-        SceneManager.LoadScene("StartMenu");
-    }
+		SceneManager.LoadScene("MainGame");
+	}
 
-    public void Credits()
-    {
-        SceneManager.LoadScene("Credits");
-    }
+	public void MainMenu() {
+		SceneManager.LoadScene("StartMenu");
+	}
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
+	public void QuitGame() {
+		Application.Quit();
+	}
 
 }

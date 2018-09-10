@@ -34,3 +34,5 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/ArtAssets/Sound_Music/Mershmerler.wav.meta
+Assets/Scripts/SceneChanger.cs.meta
