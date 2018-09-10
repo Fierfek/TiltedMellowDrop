@@ -20,6 +20,7 @@ public class StickToOther : MonoBehaviour {
 
         if (transform.position.y < 0 && alive)
         {
+            GetComponent<MallowAnimation>().burn();
             if (burnTime == 0.0f)
                 burnTime = Time.time;
             else
@@ -47,6 +48,7 @@ public class StickToOther : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        GetComponent<MallowAnimation>().impact();
         if (!stuck && collision.transform.tag.Equals("Sticky"))
         {
             //transform.parent = collision.transform;
