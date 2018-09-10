@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour {
 
-
     public void LoadGame()
     {
 
