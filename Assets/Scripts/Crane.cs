@@ -13,6 +13,8 @@ public class Crane : MonoBehaviour {
     private GameObject marshmallow_instance;
     private List<GameObject> marshmallows;
     private Camera cam;
+
+    private float dropTime;
     
     public float speed;
     public GameObject marshmallow_prefab;
@@ -27,6 +29,8 @@ public class Crane : MonoBehaviour {
         left_bounds = cam.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
         holding = true;
         direction = Vector2.right;
+
+        dropTime = 0.0f;
 
         marshmallows = new List<GameObject>();
     }
@@ -59,6 +63,9 @@ public class Crane : MonoBehaviour {
 
                 marshmallows.Add(marshmallow_instance);
                 marshmallow_instance = null;
+
+                dropTime = Time.time;
+
                 //GET RID OF LATER
                 //stacked();
             }
@@ -84,7 +91,7 @@ public class Crane : MonoBehaviour {
                     if(marshmallows.)
                 }*/
             }
-            else
+            else if(Time.time - dropTime >= 0.7f)
                 stacked();
         }
 	}

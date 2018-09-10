@@ -6,26 +6,44 @@ public class StickToOther : MonoBehaviour {
 
     bool alive;
     bool stuck;
+    float burnTime;
 
 	// Use this for initialization
 	void Start () {
         alive = true;
         stuck = false;
+        burnTime = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (transform.position.y <= -4.0)
+        if (transform.position.y < 0 && alive)
         {
-            if(alive)
+            if (burnTime == 0.0f)
+                burnTime = Time.time;
+            else
+                if(Time.time - burnTime >= 3.5)
             {
-                //lose life
+                Kill();
             }
 
-            Destroy(gameObject);
+            if (transform.position.y <= -6.0)
+            {
+                if (alive)
+                {
+                    //lose life
+                }
+
+                Destroy(gameObject);
+            }
         }
-	}
+    }
+
+    public bool getAlive()
+    {
+        return alive;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
