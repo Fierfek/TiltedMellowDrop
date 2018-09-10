@@ -8,15 +8,15 @@ public class StickToOther : MonoBehaviour {
     public class StuckEvent : UnityEvent<Transform> { }
 
     public StuckEvent stuckEvent = new StuckEvent();
-    bool alive;
-    bool stuck;
-    float burnTime;
+    public StuckEvent unstuckEvent = new StuckEvent();
+    bool alive = true;
+    public bool stuck = false;
+    float burnTime = 0.0f;
+    public bool willBurn = true;
 
 	// Use this for initialization
 	void Start () {
-        alive = true;
-        stuck = false;
-        burnTime = 0.0f;
+
 	}
 	
 	// Update is called once per frame
@@ -24,13 +24,16 @@ public class StickToOther : MonoBehaviour {
 
         if (transform.position.y < 0 && alive)
         {
-            GetComponent<MallowAnimation>().burn();
-            if (burnTime == 0.0f)
-                burnTime = Time.time;
-            else
-                if(Time.time - burnTime >= 3.5)
+            if (willBurn)
             {
-                Kill();
+                GetComponent<MallowAnimation>().burn();
+                if (burnTime == 0.0f)
+                    burnTime = Time.time;
+                else
+                    if (Time.time - burnTime >= 3.5)
+                {
+                    Kill();
+                }
             }
 
             if (transform.position.y <= -6.0)
@@ -65,6 +68,15 @@ public class StickToOther : MonoBehaviour {
 
             stuck = true;
             stuckEvent.Invoke(transform);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(stuck)
+        {
+            stuck = false;
+            unstuckEvent.Invoke(transform);
         }
     }
 

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ControllableCrane : MonoBehaviour {
+public class ControllableCrane : MonoBehaviour
+{
     Vector2 direction;
 
     private bool holding;
@@ -12,18 +13,19 @@ public class ControllableCrane : MonoBehaviour {
     private List<GameObject> marshmallows;
     bool usingAndroid = Application.platform == RuntimePlatform.Android;
     private Camera cam;
-    
+
     public float speed;
     public GameObject marshmallow_prefab;
     private bool movingCamera = false;
     private int marshmallowCount = 20;
     public bool forceStopCameraTrack = false;
     private bool canDrop = true;
-    float gamemodeMaxHeight = 0;
-    private Text maxHeightText, remainingText;
+    float gamemodeCurrHeight = 0, maxHeight = 0;
+    private Text heightText, remainingText;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         cam = Camera.main;
         SpawnHoldMallow();
         holding = true;
@@ -34,13 +36,26 @@ public class ControllableCrane : MonoBehaviour {
         MobileHelper.ins.holdReleaseEvent.AddListener((x) => DropMarshmallow(x));
         MobileHelper.ins.holdingEvent.AddListener((x) => ControlMarshmallow(x));
         MobileHelper.ins.panEvent.AddListener(() => forceStopCameraTrack = true);
-        maxHeightText = cam.transform.Find("Canvas").transform.Find("MaxHeight").GetComponent<Text>();
+        heightText = cam.transform.Find("Canvas").transform.Find("Height").GetComponent<Text>();
         remainingText = cam.transform.Find("Canvas").transform.Find("Remaining").GetComponent<Text>();
     }
 
     // Update is called once per frame
-    void Update () {
-        maxHeightText.text = gamemodeMaxHeight.ToString();
+    void Update()
+    {
+        maxHeight = 0;
+        foreach(GameObject x in marshmallows)
+        {
+            if (x.GetComponent<StickToOther>().stuck)
+            {
+                var y = Math.Round((x.transform.position.y + 4) * 10, 1);
+                if (y > maxHeight)
+                {
+                    maxHeight = (float)y;
+                }
+            }
+        }
+        heightText.text = maxHeight.ToString();
         remainingText.text = (marshmallowCount - marshmallows.Count).ToString() + " left";
         if (holding)
         {
@@ -62,11 +77,11 @@ public class ControllableCrane : MonoBehaviour {
             else
                 SpawnHoldMallow();
         }
-	}
+    }
 
     void ControlMarshmallow(Vector2 pos)
     {
-        if(holding)
+        if (holding)
             transform.position = marshmallow_instance.transform.position = pos;
     }
 
@@ -96,7 +111,6 @@ public class ControllableCrane : MonoBehaviour {
 
             marshmallows.Add(marshmallow_instance);
             marshmallow_instance = null;
-            StartCoroutine("CamTrackMarshmallow");
             StartCoroutine("NextDropDelay");
         }
     }
@@ -109,32 +123,37 @@ public class ControllableCrane : MonoBehaviour {
             marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = true;
 
             marshmallow_instance.SetActive(false);
-            marshmallow_instance.GetComponent<StickToOther>().stuckEvent.AddListener(
+            var y = marshmallow_instance.GetComponent<StickToOther>();
+            y.willBurn = false;
+            y.stuckEvent.AddListener(
                 (x) =>
                 {
-                    if (Math.Round((x.position.y + 4) * 10, 2) >= gamemodeMaxHeight)
-                    {
-                        gamemodeMaxHeight = (float) Math.Round((x.position.y + 4) * 10, 2);
-                    }
-                }); // while each mallow is stuck, update highest one height to max height
+                    StartCoroutine("CamTrackMarshmallow", x);
+                });
+            y.unstuckEvent.AddListener(
+                (x) =>
+                {
+                    StartCoroutine("CamTrackMarshmallow", x);
+                });
+            // while each mallow is stuck, update highest one height to max height
 
             holding = true;
         }
     }
 
-    IEnumerator CamTrackMarshmallow()
+    IEnumerator CamTrackMarshmallow(Transform x)
     {
-        if (marshmallows.Count > 0 && !movingCamera)
+        if (!movingCamera)
         {
             movingCamera = true;
             forceStopCameraTrack = false;
             float targetPosY;
             do
             {
-                targetPosY = (float)System.Math.Round(Mathf.Clamp(marshmallows[marshmallows.Count - 1].transform.position.y - 2, 0, 999), 2);
+                targetPosY = (float)System.Math.Round(Mathf.Clamp(x.position.y, 0, 999), 2);
                 cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(0, targetPosY, -10), Time.deltaTime * 3);
                 yield return new WaitForFixedUpdate();
-            } while (cam.transform.position.y != targetPosY && !forceStopCameraTrack);
+            } while (Math.Abs(cam.transform.position.y - targetPosY) > .01 && !forceStopCameraTrack);
             movingCamera = false;
         }
     }
