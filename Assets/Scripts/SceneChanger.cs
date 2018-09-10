@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour {
 
-
+    
 	public void LoadGame() {
 
 		SceneManager.LoadScene("MainGame");
@@ -16,7 +16,13 @@ public class SceneChanger : MonoBehaviour {
 		SceneManager.LoadScene("StartMenu");
 	}
 
-	public void QuitGame() {
+    public void Credits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
+
+
+    public void QuitGame() {
 		Application.Quit();
 	}
 
