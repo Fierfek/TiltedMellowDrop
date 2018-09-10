@@ -24,9 +24,9 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -52,8 +52,8 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 0
-    m_EnableRealtimeLightmaps: 0
+    m_EnableBakedLightmaps: 1
+    m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -72,7 +72,7 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
-    m_BakeBackend: 0
+    m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
@@ -113,16 +113,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &519420028
+--- !u!1 &1242743299
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 519420032}
-  - component: {fileID: 519420031}
-  - component: {fileID: 519420029}
+  - component: {fileID: 1242743302}
+  - component: {fileID: 1242743301}
+  - component: {fileID: 1242743300}
+  - component: {fileID: 1242743303}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -130,22 +131,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &519420029
+--- !u!81 &1242743300
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
+  m_GameObject: {fileID: 1242743299}
   m_Enabled: 1
---- !u!20 &519420031
+--- !u!20 &1242743301
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
+  m_GameObject: {fileID: 1242743299}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
@@ -161,7 +162,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -169,20 +170,20 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 0
+  m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 0
+  m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &519420032
+--- !u!4 &1242743302
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
+  m_GameObject: {fileID: 1242743299}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -190,7 +191,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1320643541
+--- !u!114 &1242743303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1242743299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbb6f8ade2086944b0c7468d9493e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnRate: 0.25
+  height: 2.5
+  spawningBirds: 1
+--- !u!1001 &1465029107
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -203,7 +218,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.96
+      value: 8.96
       objectReference: {fileID: 0}
     - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
       propertyPath: m_LocalPosition.z
@@ -233,7 +248,7 @@ Prefab:
         type: 2}
       propertyPath: cam
       value: 
-      objectReference: {fileID: 519420031}
+      objectReference: {fileID: 0}
     - target: {fileID: 114376377095431890, guid: 7473092a142473f4a9e40576c0fbfcf6,
         type: 2}
       propertyPath: speed
@@ -244,21 +259,35 @@ Prefab:
       propertyPath: scaler
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 114376377095431890, guid: 7473092a142473f4a9e40576c0fbfcf6,
+        type: 2}
+      propertyPath: marshmallow_prefab
+      value: 
+      objectReference: {fileID: 1351629186816646, guid: 1bcb83b997f9e8f4d8a2ab1e0c211166,
+        type: 2}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462404214015732, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7473092a142473f4a9e40576c0fbfcf6, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &1631363838 stripped
+--- !u!1 &1465029108 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1234623978813538, guid: 7473092a142473f4a9e40576c0fbfcf6,
     type: 2}
-  m_PrefabInternal: {fileID: 1320643541}
---- !u!50 &1631363842
+  m_PrefabInternal: {fileID: 1465029107}
+--- !u!50 &1465029109
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1631363838}
+  m_GameObject: {fileID: 1465029108}
   m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
