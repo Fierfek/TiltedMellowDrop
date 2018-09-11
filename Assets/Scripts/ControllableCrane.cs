@@ -64,7 +64,7 @@ public class ControllableCrane : MonoBehaviour
         {
             if (x.GetComponent<StickToOther>().landed)
             {
-                var y = Math.Round((x.transform.position.y + 4) * 10);
+                var y = Math.Round((x.transform.position.y + 6) * 10);
                 if (y > currHeight)
                 {
                     currHeightRaw = x.transform.position.y;
