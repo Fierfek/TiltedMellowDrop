@@ -122,7 +122,6 @@ public class Crane : MonoBehaviour {
         {
             box.enabled = false;
         }
-        marshmallow_instance.GetComponent<StickToOther>().killedEvent.AddListener((x) => CheckMarshmallowDeath.ins.score++);
 
         holding = true;
     }

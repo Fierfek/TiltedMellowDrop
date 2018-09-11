@@ -14,7 +14,7 @@ public class DestroyLives : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(currentLives != lifeHolder.lives && lifeHolder.lives > 0) {
+		if(currentLives != lifeHolder.lives && lifeHolder.lives >= 0) {
 			transform.GetChild(lifeHolder.lives).GetComponent<SpriteRenderer>().enabled = false;
 		}
 	}
