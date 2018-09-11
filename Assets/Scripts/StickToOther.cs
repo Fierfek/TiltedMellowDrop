@@ -15,6 +15,8 @@ public class StickToOther : MonoBehaviour {
     float burnTime = 0.0f;
     public bool willBurn = true;
 
+	public static int cooked = 0;
+
 	// Use this for initialization
 	void Start () {
 
@@ -40,11 +42,7 @@ public class StickToOther : MonoBehaviour {
 
             if (transform.position.y <= -6.0)
             {
-                if (alive)
-                {
-                    //lose life
-                }
-
+				cooked++;
                 Destroy(gameObject);
             }
         }

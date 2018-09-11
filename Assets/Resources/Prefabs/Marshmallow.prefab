@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 61827232006467274}
   m_Layer: 0
   m_Name: slider3
-  m_TagString: Sticky
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -417,6 +417,7 @@ MonoBehaviour:
   stuck: 0
   landed: 0
   willBurn: 1
+  cooked: 0
 --- !u!114 &114247666008805232
 MonoBehaviour:
   m_ObjectHideFlags: 1
