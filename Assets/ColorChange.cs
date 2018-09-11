@@ -10,6 +10,5 @@ public class ColorChange : MonoBehaviour {
 	void Start () {
 		Color col = colors[Random.Range(0, colors.Length)];
 		GetComponent<SpriteRenderer>().color = col;
-		Debug.Log("Ran");
 	}
 }

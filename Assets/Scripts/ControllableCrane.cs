@@ -27,15 +27,13 @@ public class ControllableCrane : MonoBehaviour
     private Canvas endScreen;
     private Text heightText, remainingText;
     private Image canDropIndicator;
-    Color greenInd = new Color(0, 1, 11/255, 32f/255), redInd = new Color(1, 0, 29/255, 32f/255);
+    Color greenInd = new Color(0, 1, 11 / 255, 32f / 255), redInd = new Color(1, 0, 29 / 255, 32f / 255);
 
     // Use this for initialization
     void Start()
     {
         cam = Camera.main;
         SpawnHoldMallow();
-        holding = true;
-        direction = Vector2.right;
         if (usingAndroid) speed /= 2;
         marshmallows = new List<GameObject>();
         MobileHelper.ins.tapEvent.AddListener((x) => DropMarshmallow(x));
@@ -68,7 +66,7 @@ public class ControllableCrane : MonoBehaviour
                 if (y > currHeight)
                 {
                     currHeightRaw = x.transform.position.y;
-                    currHeight = (int) y;
+                    currHeight = (int)y;
                     currentlyTrackedMallow = x;
                 }
             }
@@ -118,31 +116,46 @@ public class ControllableCrane : MonoBehaviour
 
     void DropMarshmallow(Vector2 pos) // Drops marshmallow at pos
     {
-        if (canDrop && holding && pos.y >= cam.transform.position.y + 3)
+        if (pos.y >= cam.transform.position.y + 3)
         {
-            marshmallow_instance.SetActive(true);
-            transform.position = marshmallow_instance.transform.position = pos;
-            holding = false;
-            marshmallow_instance.GetComponent<Rigidbody2D>().WakeUp();
-            marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = false;
-
-            marshmallow_instance.GetComponent<BoxCollider2D>().enabled = true;
-            BoxCollider2D[] boxes = marshmallow_instance.GetComponentsInChildren<BoxCollider2D>();
-            foreach (BoxCollider2D box in boxes)
+            if (canDrop && holding)
             {
-                box.enabled = true;
-            }
+                marshmallow_instance.SetActive(true);
+                transform.position = marshmallow_instance.transform.position = pos;
+                holding = false;
+                marshmallow_instance.GetComponent<Rigidbody2D>().WakeUp();
+                marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = false;
 
-            marshmallow_instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
-            Rigidbody2D[] bodies = marshmallow_instance.GetComponentsInChildren<Rigidbody2D>();
-            foreach (Rigidbody2D body in bodies)
+                marshmallow_instance.GetComponent<BoxCollider2D>().enabled = true;
+                BoxCollider2D[] boxes = marshmallow_instance.GetComponentsInChildren<BoxCollider2D>();
+                foreach (BoxCollider2D box in boxes)
+                {
+                    box.enabled = true;
+                }
+
+                marshmallow_instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
+                Rigidbody2D[] bodies = marshmallow_instance.GetComponentsInChildren<Rigidbody2D>();
+                foreach (Rigidbody2D body in bodies)
+                {
+                    body.velocity = new Vector2(0.0f, 0.0f);
+                }
+
+                marshmallows.Add(marshmallow_instance);
+                marshmallow_instance = null;
+                StartCoroutine("NextHoldDelay");
+            }
+        } else
+        {
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0);
+            if (hit)
             {
-                body.velocity = new Vector2(0.0f, 0.0f);
+                if (hit.transform.GetComponentInParent<StickToOther>() != null)
+                {
+                    var m = hit.transform.GetComponentInParent<StickToOther>().gameObject;
+                    marshmallows.Remove(m);
+                    Destroy(m);
+                }
             }
-
-            marshmallows.Add(marshmallow_instance);
-            marshmallow_instance = null;
-            StartCoroutine("NextHoldDelay");
         }
     }
 
@@ -189,7 +202,7 @@ public class ControllableCrane : MonoBehaviour
                 targetPosY = (float)System.Math.Round(Mathf.Clamp(currentlyTrackedMallow.transform.position.y + 1, 0, 999), 2);
                 cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(0, targetPosY, -10), Time.deltaTime * 3);
                 yield return new WaitForFixedUpdate();
-            } while (!forceStopCameraTrack);
+            } while (!forceStopCameraTrack && currentlyTrackedMallow != null);
             movingCamera = false;
         }
     }
@@ -209,7 +222,7 @@ public class ControllableCrane : MonoBehaviour
         {
             endScreen.transform.Find("FinalHeightTxt").GetComponent<Text>().text = x.ToString();
             endScreen.enabled = true;
-            foreach(GameObject m in marshmallows)
+            foreach (GameObject m in marshmallows)
             {
                 m.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             }
