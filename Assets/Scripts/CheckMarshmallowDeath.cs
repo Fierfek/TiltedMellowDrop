@@ -29,7 +29,7 @@ public class CheckMarshmallowDeath : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (lives <= 0)
+        if (lives == 0)
         {
             endScreen.transform.Find("CookedTxt").GetComponent<Text>().text = StickToOther.cooked.ToString();
             endScreen.enabled = true;
@@ -37,6 +37,8 @@ public class CheckMarshmallowDeath : MonoBehaviour
             foreach (GameObject x in FindObjectsOfType<GameObject>())
                 if (x.GetComponent<StickToOther>() != null)
                     Destroy(x);
+            StickToOther.cooked = 0;
+            lives--;
         }
     }
 

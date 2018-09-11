@@ -9,7 +9,6 @@ public class StickToOther : MonoBehaviour {
 
     public StuckEvent stuckEvent = new StuckEvent();
     public StuckEvent unstuckEvent = new StuckEvent();
-    public StuckEvent killedEvent = new StuckEvent();
     bool alive = true;
     public bool stuck = false, landed = false;
     float burnTime = 0.0f;
@@ -24,7 +23,6 @@ public class StickToOther : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         if (transform.position.y < 0 && alive)
         {
             if (willBurn)
@@ -40,11 +38,11 @@ public class StickToOther : MonoBehaviour {
                 }
             }
 
-            if (transform.position.y <= -6.0)
-            {
-				cooked++;
-                Destroy(gameObject);
-            }
+            
+        }
+        if (transform.position.y <= -6.0 && !alive)
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -89,6 +87,6 @@ public class StickToOther : MonoBehaviour {
         {
             box.enabled = false;
         }
-        killedEvent.Invoke(transform);
+        cooked++;
     }
 }
