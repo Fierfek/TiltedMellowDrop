@@ -6,8 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour {
 
+    private void Start()
+    {
+        Screen.SetResolution(411, 731, false);
+    }
 
-	public void LoadGame() {
+
+    public void LoadGame() {
 		SceneManager.LoadScene("MainGame");
 	}
 

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crane : MonoBehaviour {
+public class Crane : MonoBehaviour
+{
     Rigidbody2D rb;
     Vector2 direction;
 
@@ -14,12 +15,13 @@ public class Crane : MonoBehaviour {
     private List<GameObject> marshmallows;
     bool usingAndroid = Application.platform == RuntimePlatform.Android;
     private Camera cam;
-    
+
     public float speed;
     public GameObject marshmallow_prefab;
-    
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start()
+    {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
         moving_right = true;
@@ -31,18 +33,16 @@ public class Crane : MonoBehaviour {
         if (usingAndroid) speed /= 2;
         marshmallows = new List<GameObject>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         move();
         if (holding)
         {
             marshmallow_instance.transform.position = transform.position;
-            if (Application.platform == RuntimePlatform.WindowsEditor)
-            {
-                if (Input.GetMouseButtonUp(0))
-                    DropMarshmallow();
-            }
+            if (Input.GetMouseButtonUp(0))
+                DropMarshmallow();
         }
         else
         {
@@ -68,7 +68,7 @@ public class Crane : MonoBehaviour {
             else
                 stacked();
         }
-	}
+    }
 
     void DropMarshmallow()
     {

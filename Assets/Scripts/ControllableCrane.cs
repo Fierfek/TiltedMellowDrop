@@ -89,13 +89,10 @@ public class ControllableCrane : MonoBehaviour
         if (holding)
         {
             marshmallow_instance.transform.position = transform.position;
-            if (Application.platform == RuntimePlatform.WindowsEditor)
-            {
-                if (Input.GetMouseButton(0))
-                    ControlMarshmallow(cam.ScreenToWorldPoint(Input.mousePosition));
-                else if (Input.GetMouseButtonUp(0))
-                    DropMarshmallow(cam.ScreenToWorldPoint(Input.mousePosition));
-            }
+            if (Input.GetMouseButton(0))
+                ControlMarshmallow(cam.ScreenToWorldPoint(Input.mousePosition));
+            else if (Input.GetMouseButtonUp(0))
+                DropMarshmallow(cam.ScreenToWorldPoint(Input.mousePosition));
         }
         else
         {
@@ -144,7 +141,8 @@ public class ControllableCrane : MonoBehaviour
                 marshmallow_instance = null;
                 StartCoroutine("NextHoldDelay");
             }
-        } else
+        }
+        else
         {
             RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0);
             if (hit)
