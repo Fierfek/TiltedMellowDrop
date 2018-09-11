@@ -30,6 +30,10 @@ public class CheckMarshmallowDeath : MonoBehaviour {
         if (lives <= 0) {
             endScreen.transform.Find("CookedTxt").GetComponent<Text>().text = score.ToString();
             endScreen.enabled = true;
+            GameObject.Find("Crane").GetComponent<Crane>().enabled = false;
+            foreach (GameObject x in FindObjectsOfType<GameObject>())
+                if (x.GetComponent<StickToOther>() != null)
+                    Destroy(x);
         }
     }
 

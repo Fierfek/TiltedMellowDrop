@@ -25,6 +25,7 @@ public class Crane : MonoBehaviour {
         moving_right = true;
         right_bounds = cam.ViewportToWorldPoint(new Vector3(1, 1, 0)).x;
         left_bounds = cam.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
+        MobileHelper.ins.tapEvent.AddListener((x) => DropMarshmallow());
         holding = false;
         direction = Vector2.right;
         if (usingAndroid) speed /= 2;
@@ -37,31 +38,10 @@ public class Crane : MonoBehaviour {
         if (holding)
         {
             marshmallow_instance.transform.position = transform.position;
-            if (Input.GetMouseButtonDown(0) || (usingAndroid && Input.GetTouch(0).phase == TouchPhase.Began))
+            if (Application.platform == RuntimePlatform.WindowsEditor)
             {
-                marshmallow_instance.GetComponent<MallowAnimation>().fall();
-                holding = false;
-                marshmallow_instance.GetComponent<Rigidbody2D>().WakeUp();
-                marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = false;
-
-                marshmallow_instance.GetComponent<BoxCollider2D>().enabled = true;
-                BoxCollider2D[] boxes = marshmallow_instance.GetComponentsInChildren<BoxCollider2D>();
-                foreach (BoxCollider2D box in boxes)
-                {
-                    box.enabled = true;
-                }
-
-                marshmallow_instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
-                Rigidbody2D[] bodies = marshmallow_instance.GetComponentsInChildren<Rigidbody2D>();
-                foreach (Rigidbody2D body in bodies)
-                {
-                    body.velocity = new Vector2(0.0f, 0.0f);
-                }
-
-                marshmallows.Add(marshmallow_instance);
-                marshmallow_instance = null;
-                //GET RID OF LATER
-                //stacked();
+                if (Input.GetMouseButtonUp(0))
+                    DropMarshmallow();
             }
         }
         else
@@ -89,6 +69,31 @@ public class Crane : MonoBehaviour {
                 stacked();
         }
 	}
+
+    void DropMarshmallow()
+    {
+        marshmallow_instance.GetComponent<MallowAnimation>().fall();
+        holding = false;
+        marshmallow_instance.GetComponent<Rigidbody2D>().WakeUp();
+        marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = false;
+
+        marshmallow_instance.GetComponent<BoxCollider2D>().enabled = true;
+        BoxCollider2D[] boxes = marshmallow_instance.GetComponentsInChildren<BoxCollider2D>();
+        foreach (BoxCollider2D box in boxes)
+        {
+            box.enabled = true;
+        }
+
+        marshmallow_instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
+        Rigidbody2D[] bodies = marshmallow_instance.GetComponentsInChildren<Rigidbody2D>();
+        foreach (Rigidbody2D body in bodies)
+        {
+            body.velocity = new Vector2(0.0f, 0.0f);
+        }
+
+        marshmallows.Add(marshmallow_instance);
+        marshmallow_instance = null;
+    }
 
     void move()
     {
