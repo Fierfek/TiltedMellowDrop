@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4494858792869172}
   - component: {fileID: 212142002942909292}
+  - component: {fileID: 114274393411348492}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -427,6 +428,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821bb31eda3bd524c83d19d4a21aacc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114274393411348492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1590034721471820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a8523fb58f9d54c92496dda4ffd18f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8509804, g: 0.34117648, b: 0.3882353, a: 1}
+  - {r: 0.3882353, g: 0.60784316, b: 1, a: 1}
+  - {r: 0.93333334, g: 0.7647059, b: 0.6039216, a: 1}
+  - {r: 0.9529412, g: 0.84705883, b: 0.3764706, a: 1}
+  - {r: 0.09019608, g: 0.8392157, b: 0.5647059, a: 1}
+  - {r: 0.91764706, g: 0.33333334, b: 0.7058824, a: 1}
+  - {r: 0.96862745, g: 0.56078434, b: 0.07450981, a: 1}
+  - {r: 0.76862746, g: 0.40392157, b: 0.9529412, a: 1}
 --- !u!212 &212010036964974058
 SpriteRenderer:
   m_ObjectHideFlags: 1
