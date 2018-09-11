@@ -22,11 +22,10 @@ public class Crane : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
-        marshmallow_instance = Instantiate(marshmallow_prefab, transform.position, Quaternion.identity);
         moving_right = true;
         right_bounds = cam.ViewportToWorldPoint(new Vector3(1, 1, 0)).x;
         left_bounds = cam.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
-        holding = true;
+        holding = false;
         direction = Vector2.right;
         if (usingAndroid) speed /= 2;
         marshmallows = new List<GameObject>();
@@ -118,6 +117,7 @@ public class Crane : MonoBehaviour {
         {
             box.enabled = false;
         }
+        marshmallow_instance.GetComponent<StickToOther>().killedEvent.AddListener((x) => CheckMarshmallowDeath.ins.score++);
 
         holding = true;
     }

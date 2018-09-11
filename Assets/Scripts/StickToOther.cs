@@ -9,6 +9,7 @@ public class StickToOther : MonoBehaviour {
 
     public StuckEvent stuckEvent = new StuckEvent();
     public StuckEvent unstuckEvent = new StuckEvent();
+    public StuckEvent killedEvent = new StuckEvent();
     bool alive = true;
     public bool stuck = false, landed = false;
     float burnTime = 0.0f;
@@ -33,6 +34,7 @@ public class StickToOther : MonoBehaviour {
                     if (Time.time - burnTime >= 3.5)
                 {
                     Kill();
+                    alive = false;
                 }
             }
 
@@ -89,5 +91,6 @@ public class StickToOther : MonoBehaviour {
         {
             box.enabled = false;
         }
+        killedEvent.Invoke(transform);
     }
 }
