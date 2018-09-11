@@ -26,10 +26,15 @@ public class MobileHelper : MonoBehaviour
     private Vector3 lastPosition;
     private bool held_two = false;
 
+    private void Awake()
+    {
+        ins = this;
+    }
+
     // Use this for initialization
     void Start()
     {
-        ins = this;
+        
     }
 
     // Update is called once per frame
