@@ -76,7 +76,7 @@ MonoBehaviour:
   speed: 0
   marshmallow_prefab: {fileID: 1000756366372542, guid: 68e267e07ae4bde4d88022b45d0702e4,
     type: 2}
-  forceStopCameraTrack: 0
+  forceStopCameraTrack: 1
 --- !u!212 &212068033962372462
 SpriteRenderer:
   m_ObjectHideFlags: 1

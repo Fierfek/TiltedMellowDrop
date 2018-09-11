@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ControllableCrane : MonoBehaviour
@@ -18,16 +19,18 @@ public class ControllableCrane : MonoBehaviour
     public GameObject marshmallow_prefab;
     private bool movingCamera = false;
     private int marshmallowCount = 20;
-    public bool forceStopCameraTrack = false;
-    private bool canDrop = true;
-    float currHeight = 0, currHeightRaw = 0;
-    private GameObject  currentlyTrackedMallow;
+    public bool forceStopCameraTrack = true;
+    private bool canDrop = true, canHold = true;
+    int currHeight = 0;
+    float currHeightRaw = 0;
+    private GameObject heightCanvas, dropZone, currentlyTrackedMallow;
+    private Canvas endScreen;
+    private Text heightText, remainingText;
+    private Image canDropIndicator;
+    Color greenInd = new Color(0, 1, 11/255, 32f/255), redInd = new Color(1, 0, 29/255, 32f/255);
 
-    public Text heightText, remainingText;
-	public GameObject heightCanvas, dropZone;
-
-	// Use this for initialization
-	void Start()
+    // Use this for initialization
+    void Start()
     {
         cam = Camera.main;
         SpawnHoldMallow();
@@ -41,23 +44,31 @@ public class ControllableCrane : MonoBehaviour
         MobileHelper.ins.panEvent.AddListener(() =>
         {
             forceStopCameraTrack = true;
-            cam.transform.position = new Vector3(0, Mathf.Clamp(Mathf.Clamp(cam.transform.position.y, currHeightRaw + 1, 999), 0, 999), -10);
+            cam.transform.position = new Vector3(0, Mathf.Clamp(cam.transform.position.y, 0, 999), -10);
         });
+        heightCanvas = GameObject.Find("HeightCanvas");
+        heightText = heightCanvas.transform.Find("Height").GetComponent<Text>();
+        dropZone = cam.transform.Find("DropZone").gameObject;
+        remainingText = dropZone.transform.Find("Remaining").GetComponent<Text>();
+        canDropIndicator = dropZone.transform.Find("CanDrop").GetComponent<Image>();
+        endScreen = cam.transform.Find("EndScreen").GetComponent<Canvas>();
+        endScreen.transform.Find("RestartBtn").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("TowerBuild"));
+        endScreen.transform.Find("MenuBtn").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("StartMenu"));
     }
 
     // Update is called once per frame
     void Update()
     {
         currHeight = 0;
-        foreach(GameObject x in marshmallows)
+        foreach (GameObject x in marshmallows)
         {
             if (x.GetComponent<StickToOther>().landed)
             {
-                var y = Math.Round((x.transform.position.y + 4) * 10, 1);
+                var y = Math.Round((x.transform.position.y + 4) * 10);
                 if (y > currHeight)
                 {
                     currHeightRaw = x.transform.position.y;
-                    currHeight = (float)y;
+                    currHeight = (int) y;
                     currentlyTrackedMallow = x;
                 }
             }
@@ -70,8 +81,12 @@ public class ControllableCrane : MonoBehaviour
             */
         }
         heightText.text = currHeight.ToString();
-        if(currentlyTrackedMallow)
+        if (currentlyTrackedMallow)
+        {
             heightCanvas.transform.position = new Vector2(0, currHeightRaw + .6f); // Adds half of height of marshmallow to make line on top of mallow
+            canDrop = cam.transform.position.y >= currentlyTrackedMallow.transform.position.y + .5f;
+            canDropIndicator.color = canDrop ? greenInd : redInd;
+        }
         remainingText.text = (marshmallowCount - marshmallows.Count).ToString() + " left";
         if (holding)
         {
@@ -88,7 +103,7 @@ public class ControllableCrane : MonoBehaviour
         {
             if (marshmallows.Count >= marshmallowCount)
             {
-                //TODO: Error indicator that out of marshmallows
+                StartCoroutine("CheckFinishHeight");
             }
             else
                 SpawnHoldMallow();
@@ -127,13 +142,13 @@ public class ControllableCrane : MonoBehaviour
 
             marshmallows.Add(marshmallow_instance);
             marshmallow_instance = null;
-            StartCoroutine("NextDropDelay");
+            StartCoroutine("NextHoldDelay");
         }
     }
 
     void SpawnHoldMallow()
     {
-        if (canDrop)
+        if (canHold)
         {
             marshmallow_instance = Instantiate(marshmallow_prefab, transform.position, Quaternion.identity);
             marshmallow_instance.GetComponent<Rigidbody2D>().freezeRotation = true;
@@ -145,10 +160,10 @@ public class ControllableCrane : MonoBehaviour
             y.stuckEvent.AddListener(
                 (x) =>
                 {
-                    if(!y.landed) // first time landing
+                    if (!y.landed) // first time landing
                     {
                         currentlyTrackedMallow = x.gameObject;
-                        if (marshmallows.Count == 1 || forceStopCameraTrack)
+                        if (forceStopCameraTrack)
                             StartCoroutine("CamTrackMarshmallow");
                     }
                 });
@@ -179,19 +194,26 @@ public class ControllableCrane : MonoBehaviour
         }
     }
 
-    IEnumerator NextDropDelay() // Delay for consecutive tapping
+    IEnumerator NextHoldDelay() // Delay for consecutive tapping
     {
-        canDrop = false;
+        canHold = false;
         yield return new WaitForSeconds(.5f);
-        canDrop = true;
+        canHold = true;
     }
 
-    /* NOTES
-     * Need to drop from height above 
-     * 
-     * 
-     * 
-     * 
-     *
-     */
+    IEnumerator CheckFinishHeight()
+    {
+        float x = currHeight;
+        yield return new WaitForSeconds(3);
+        if (currHeight == x)
+        {
+            endScreen.transform.Find("FinalHeightTxt").GetComponent<Text>().text = x.ToString();
+            endScreen.enabled = true;
+            foreach(GameObject m in marshmallows)
+            {
+                m.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            }
+            StopAllCoroutines();
         }
+    }
+}
