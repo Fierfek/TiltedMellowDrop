@@ -8,12 +8,19 @@ public class SceneChanger : MonoBehaviour {
 
 
 	public void LoadGame() {
-
 		SceneManager.LoadScene("MainGame");
 	}
 
 	public void MainMenu() {
 		SceneManager.LoadScene("StartMenu");
+	}
+
+	public void Credits() {
+		SceneManager.LoadScene("Credits");
+	}
+
+	public void TowerGame() {
+		SceneManager.LoadScene("TowerBuild");
 	}
 
 	public void QuitGame() {

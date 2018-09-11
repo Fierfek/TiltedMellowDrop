@@ -152,6 +152,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114485306745841872, guid: 8120194cbfe19c745adc264ebb648d9d,
+        type: 2}
+      propertyPath: heightText
+      value: 
+      objectReference: {fileID: 651742513}
+    - target: {fileID: 114485306745841872, guid: 8120194cbfe19c745adc264ebb648d9d,
+        type: 2}
+      propertyPath: remainingText
+      value: 
+      objectReference: {fileID: 1573773533}
+    - target: {fileID: 114485306745841872, guid: 8120194cbfe19c745adc264ebb648d9d,
+        type: 2}
+      propertyPath: heightCanvas
+      value: 
+      objectReference: {fileID: 1494254403}
+    - target: {fileID: 114485306745841872, guid: 8120194cbfe19c745adc264ebb648d9d,
+        type: 2}
+      propertyPath: dropZone
+      value: 
+      objectReference: {fileID: 1883549907}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8120194cbfe19c745adc264ebb648d9d, type: 2}
   m_IsPrefabAsset: 0

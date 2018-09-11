@@ -21,11 +21,13 @@ public class ControllableCrane : MonoBehaviour
     public bool forceStopCameraTrack = false;
     private bool canDrop = true;
     float currHeight = 0, currHeightRaw = 0;
-    private GameObject heightCanvas, dropZone, currentlyTrackedMallow;
-    private Text heightText, remainingText;
+    private GameObject  currentlyTrackedMallow;
 
-    // Use this for initialization
-    void Start()
+    public Text heightText, remainingText;
+	public GameObject heightCanvas, dropZone;
+
+	// Use this for initialization
+	void Start()
     {
         cam = Camera.main;
         SpawnHoldMallow();
@@ -41,10 +43,6 @@ public class ControllableCrane : MonoBehaviour
             forceStopCameraTrack = true;
             cam.transform.position = new Vector3(0, Mathf.Clamp(Mathf.Clamp(cam.transform.position.y, currHeightRaw + 1, 999), 0, 999), -10);
         });
-        heightCanvas = GameObject.Find("HeightCanvas");
-        heightText = heightCanvas.transform.Find("Height").GetComponent<Text>();
-        dropZone = cam.transform.Find("DropZone").gameObject;
-        remainingText = dropZone.transform.Find("Remaining").GetComponent<Text>();
     }
 
     // Update is called once per frame
