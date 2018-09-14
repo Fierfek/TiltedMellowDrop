@@ -10,6 +10,4 @@ Art - Peter DeVries, Jonathan Fong, Celine Mangahas
 
 Programming - Marcus Wong, Josh Coyco, Aidan Novobilski
 
-Project Lead - Brennan Zuber
-
-2
+Project Lead - Brennan Zuber (CPP President)
