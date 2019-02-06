@@ -24,10 +24,12 @@ public class ControllableCrane : MonoBehaviour
     int currHeight = 0;
     float currHeightRaw = 0;
     private GameObject heightCanvas, dropZone, currentlyTrackedMallow;
-    private Canvas endScreen;
+    private Canvas endScreen, pauseCanvas;
     private Text heightText, remainingText;
     private Image canDropIndicator;
     Color greenInd = new Color(0, 1, 11 / 255, 32f / 255), redInd = new Color(1, 0, 29 / 255, 32f / 255);
+
+    bool isPaused = false;
 
     // Use this for initialization
     void Start()
@@ -52,6 +54,12 @@ public class ControllableCrane : MonoBehaviour
         endScreen = cam.transform.Find("EndScreen").GetComponent<Canvas>();
         endScreen.transform.Find("RestartBtn").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("TowerBuild"));
         endScreen.transform.Find("MenuBtn").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("StartMenu"));
+
+        pauseCanvas = cam.transform.Find("PauseCanvas").GetComponent<Canvas>();
+        pauseCanvas.transform.Find("RestartBtn").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("TowerBuild"));
+        pauseCanvas.transform.Find("MenuBtn").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("StartMenu"));
+        pauseCanvas.transform.Find("ResumeBtn").GetComponent<Button>().onClick.AddListener(() => PauseGame());
+        pauseCanvas.transform.Find("PauseBtn").GetComponent<Button>().onClick.AddListener(() => PauseGame());
     }
 
     // Update is called once per frame
@@ -188,6 +196,7 @@ public class ControllableCrane : MonoBehaviour
         }
     }
 
+
     IEnumerator CamTrackMarshmallow() // Tracks the currentlyTrackedMallow
     {
         if (!movingCamera && currentlyTrackedMallow != null)
@@ -226,5 +235,22 @@ public class ControllableCrane : MonoBehaviour
             }
             StopAllCoroutines();
         }
+    }
+
+    void PauseGame()
+    {
+        if (isPaused)
+        {
+            isPaused = false;
+
+            pauseCanvas.enabled = false;
+        }
+        else
+        {
+            pauseCanvas.enabled = true;
+            isPaused = true;
+        }
+
+
     }
 }
