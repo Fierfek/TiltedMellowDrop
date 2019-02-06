@@ -242,12 +242,13 @@ public class ControllableCrane : MonoBehaviour
         if (isPaused)
         {
             isPaused = false;
-
+            Time.timeScale = 1f;
             pauseCanvas.enabled = false;
         }
         else
         {
             pauseCanvas.enabled = true;
+            Time.timeScale = 0f;
             isPaused = true;
         }
 
